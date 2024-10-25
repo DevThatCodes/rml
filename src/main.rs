@@ -75,11 +75,15 @@ pub mod rml {
         }
 
         pub fn is_tag(tag: String) -> bool {
-            tag.contains("[") && tag.contains("]")
+            (tag.contains("[") && tag.contains("]")) || !tag.contains("~")
+        }
+
+        pub fn get_tag(tag: String) -> String {
+            tag.replace("[", "").replace("]", "").split(" ").next().unwrap().to_string()
         }
 
         pub fn get_tag_name(tag: String) -> String {
-            tag.replace("[", "").replace("]", "").replace("!", "").to_string()
+            tag.replace("[", "").replace("]", "").replace("!", "").replace("~", "").to_string()
         }
 
         // element parser ( ex. : [exampleElement exampleTag="exampleVal"]example content[!exampleElement] )
@@ -95,17 +99,35 @@ pub mod rml {
                     if !in_tag {
                         in_tag = true
                     } else if !substring.is_empty() {
-                            output.push(substring.clone());
+                            output.push(substring.clone() + "~");
                             substring = String::from("");
                     }
                 }
                 substring += &char.to_string();
                 if char == ']' {
-                    output.push(get_tag_name(substring.clone()));
+                    output.push(get_tag(substring.clone()));
                     substring = String::from("");
                 }
             });
+            println!("{:#?}", output);
             if output.len() != 3 {
+                // goes here instead of going to is_tag
+            
+
+                let root_tag_name = get_tag_name(output[0].clone());
+                output.iter().for_each(|possible_tag| {
+                    if !is_tag(possible_tag.to_string()) {
+                        println!("isnt tag: {}", possible_tag)
+                    } else if get_tag_name(possible_tag.to_string()) != root_tag_name {
+                        if is_start_tag(possible_tag.to_string()) {
+                            println!("new tag: {}", get_tag_name(possible_tag.to_string()))
+                        } else if is_end_tag(possible_tag.to_string()) {
+                            println!("closed tag: {}", get_tag_name(possible_tag.to_string())) 
+                        }
+                    }
+                });
+
+
                 return RmlElement::default();
             } else {
                 output[0].split(" ").for_each(|possible_tag| if possible_tag.contains("=") {tags.push(possible_tag.to_string())});
@@ -121,12 +143,12 @@ pub mod rml {
                 } else {
                     tags_as_rml_tags.push(RmlTag {
                         name: "*content*".to_string(),
-                        value: output[1].clone()
+                        value: output[1].clone().replace("~", "")
                     })
                 }
             }
             RmlElement {
-                name: output[0].split(" ").next().unwrap().to_string(),
+                name: get_tag_name(output[0].split(" ").next().unwrap().to_string()),
                 children,
                 tags: tags_as_rml_tags
             }
@@ -136,5 +158,6 @@ pub mod rml {
 
 fn main() {
     println!("{:#?}", parse_element_string("[exampleElement exampleTag=\"exampleVal\"]example content[!exampleElement]".to_string()));
-    println!("test element with children:{:#?}", parse_element_string("[container][text]test[!text][!container]".to_string()))
+    println!("test element with children:{:#?}", parse_element_string("[container][text]test[!text][!container]".to_string()));
+    println!("test element with children that have tags:{:#?}", parse_element_string("[container][text id=\"pipe\"]test[!text][!container]".to_string()))
 } 
