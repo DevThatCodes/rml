@@ -1,6 +1,6 @@
 Rml is a version of Xml that i made in rust because i thought it would be a fun project to work on
 # Current Features
- - a way to "express/write" rml in rust with structs
+ - a way to <sub>*replace with single word:*</sub>"express/write" rml in rust with structs
 # Examples
 ## Container
 Rml:
