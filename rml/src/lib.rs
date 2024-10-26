@@ -22,6 +22,13 @@ impl Default for RmlElement {
     }
 }
 
+// implement default for RmlTag
+impl Default for RmlTag {
+    fn default() -> Self {
+        RmlTag { name: String::from("DefaultTag"), value: String::from("DefaultValue") }
+    }
+}
+
 // implement functions for RmlElement
 impl RmlElement {
     // returns a reference to the children field
@@ -68,9 +75,17 @@ mod tests {
     #[test]
     fn test_default_element_creation() {
         assert_eq!(RmlElement::default(), RmlElement {
-            name: String::from("DefaultElement"),
+            name: "DefaultElement".to_string(),
             children: Vec::new(),
             tags: Vec::new()
+        })
+    }
+
+    #[test]
+    fn test_default_tag_creation() {
+        assert_eq!(RmlTag::default(), RmlTag {
+            name: "DefaultTag".to_string(),
+            value: "DefaultValue".to_string()
         })
     }
 }
