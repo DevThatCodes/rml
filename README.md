@@ -1,4 +1,4 @@
-Rml is a version of xml that i made in rust because i thought it would be a fun project to work on
+Rml is a version of Xml that i made in rust because i thought it would be a fun project to work on
 # Current Features
  - a way to "express/write" rml in rust with structs
 # Examples
@@ -7,4 +7,10 @@ Rml is a version of xml that i made in rust because i thought it would be a fun 
 [container id="root"]
   [text] This is in the container#root [!text]
 [!container]
+```
+equivalent in Xml
+```xml
+<container id="root">
+    <text> This is in the container#root </text>
+</container>
 ```

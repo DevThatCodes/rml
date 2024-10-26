@@ -51,8 +51,13 @@ impl RmlTag {
         String::from(&self.name)
     }
     // returns value as a string
-    pub fn value(&self) -> String {
+    pub fn get(&self) -> String {
         String::from(&self.value)   
+    }
+
+    // sets the value of the tag
+    pub fn set(&mut self, value: String) {
+        self.value = value;
     }
 }
 
