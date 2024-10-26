@@ -68,6 +68,11 @@ impl RmlTag {
     }
 }
 
+// TODO: make a parser
+// 1. Figure out the algorithm to do it.
+// 2. Pseudocode it.
+// 3. Translate pseudocode to rust code.
+
 #[cfg(test)]
 mod tests {
     use super::*;
