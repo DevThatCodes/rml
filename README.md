@@ -8,7 +8,32 @@ Rml is a version of Xml that i made in rust because i thought it would be a fun 
   [text] This is in the container#root [!text]
 [!container]
 ```
-equivalent in Xml
+equivalent with Rust structs:
+```rust
+RmlElement {
+    name: "container".to_string(),
+    children: vec![
+        RmlElement {
+            name: "text".to_string(),
+            children: Vec::new(),
+            tags: vec![
+                RmlTag {
+                    name: "*content*".to_string(),
+                    value: "this is in the container#root".to_string()
+                }
+            ]
+        }
+    ],
+    tags: vec![
+        RmlTag {
+            name: "id".to_string(),
+            value: "root".to_string()
+        }
+    ]
+}
+
+```
+equivalent in Xml:
 ```xml
 <container id="root">
     <text> This is in the container#root </text>
