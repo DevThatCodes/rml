@@ -135,6 +135,7 @@ pub fn get_tag_name(tag: String) -> String {
 //              return current_parent
 // }
 
+// splits the string into tags and content
 fn parse_to_vec(data: String) -> Vec<String> {
     let mut output : Vec<String> = Vec::new();
     let mut substring = String::from("");
